@@ -38,32 +38,37 @@ class _HomePageState extends State<HomePage> {
 
   // state game state
   void startGame() {
-    Timer.periodic(const Duration(milliseconds: 200), (timer) {
+    Timer.periodic(const Duration(milliseconds: 250), (timer) {
       setState(() {
+        // Verify that game is over
+        checkGameOver(timer);
+
+        // Verify that game is pause
+        checkGamePause(timer);
+
         // moving snake
         moveSnake();
-
-        // check for the pause
-        if (pause) {
-          timer.cancel();
-        }
-
-        // check if the game is over
-        if (gameOver()) {
-          timer.cancel();
-
-          // display the game is over dialog
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text("Game Over"),
-                content: Text(snakePositions.length.toString()),
-              );
-            },
-          );
-        }
       });
+    });
+  }
+
+  void restartGame() {
+    setState(() {
+      // snake position
+      snakePositions = [0, 1, 2];
+
+      // food position
+      foodPositions = 17;
+
+      // pause game state
+      pause = false;
+
+      gameRunning = false;
+
+      currentScore = 0;
+
+      // initial snake movement direction
+      currentDirection = SnakeDirection.right;
     });
   }
 
@@ -130,20 +135,83 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void pauseGame() {
-    pause = true;
-    gameRunning = false;
+  // function for checking if game is pause
+  void checkGamePause(Timer timer) {
+    if (pause == true) {
+      timer.cancel();
+      gameRunning = false;
+    } else {
+      // skip if the game is running
+    }
   }
 
   // game over
-  bool gameOver() {
+  void checkGameOver(Timer timer) {
     // snake bite itself then game over
     // check if snakePositions list having duplicate positions or values that's mean snake bite itself
     List<int> snakeBody = snakePositions.sublist(0, snakePositions.length - 1);
     if (snakeBody.contains(snakePositions.last)) {
-      return true;
+      timer.cancel();
+
+      // display the game is over dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+              backgroundColor: Colors.white70,
+              title: const Text(
+                "Game Over",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Your Score is ${currentScore.toString()}",
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      MaterialButton(
+                        onPressed: () => {
+                          restartGame(),
+                          Navigator.pop(context),
+                        },
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        child: const Text("Exit Game"),
+                      ),
+                      MaterialButton(
+                        onPressed: () => {
+                          restartGame(),
+                          Navigator.pop(context),
+                        },
+                        color: Colors.green,
+                        textColor: Colors.white,
+                        child: const Text("Restart"),
+                      )
+                    ],
+                  )
+                ],
+              ));
+        },
+      );
     }
-    return false;
   }
 
   @override
@@ -269,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(width: 40),
                     MaterialButton(
-                      onPressed: () => {pauseGame()},
+                      onPressed: () => {pause = true},
                       color: Colors.red,
                       textColor: Colors.white,
                       child: const Text('PAUSE'),
