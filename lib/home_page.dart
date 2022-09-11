@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
         if (!isMusicPlaying) {
           musicPlayer.setReleaseMode(
               ReleaseMode.loop); // for playing music in loop mode
+          musicPlayer.setVolume(3.0);
           musicPlayer.play(AssetSource('sounds/background_music.mp3'));
         }
         // moving snake
