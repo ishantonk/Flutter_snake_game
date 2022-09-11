@@ -15,7 +15,7 @@ class FoodPixel extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
         ),
         child: Image.asset(
-          'lib/images/food.png',
+          'assets/images/food.png',
         ),
       ),
     );

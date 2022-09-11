@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_game/blank_pixel.dart';
 import 'package:flutter_snake_game/food_pixel.dart';
@@ -36,6 +37,11 @@ class _HomePageState extends State<HomePage> {
   // initial snake movement direction
   SnakeDirection currentDirection = SnakeDirection.right;
 
+  // game sounds handler
+  final foodPlayer = AudioPlayer();
+  final musicPlayer = AudioPlayer();
+  bool isMusicPlaying = false;
+
   // state game state
   void startGame() {
     Timer.periodic(const Duration(milliseconds: 250), (timer) {
@@ -46,6 +52,11 @@ class _HomePageState extends State<HomePage> {
         // Verify that game is pause
         checkGamePause(timer);
 
+        if (!isMusicPlaying) {
+          musicPlayer.setReleaseMode(
+              ReleaseMode.loop); // for playing music in loop mode
+          musicPlayer.play(AssetSource('sounds/background_music.mp3'));
+        }
         // moving snake
         moveSnake();
       });
@@ -69,6 +80,10 @@ class _HomePageState extends State<HomePage> {
 
       // initial snake movement direction
       currentDirection = SnakeDirection.right;
+
+      musicPlayer.stop();
+      foodPlayer.stop();
+      isMusicPlaying = false;
     });
   }
 
@@ -129,6 +144,8 @@ class _HomePageState extends State<HomePage> {
 
   void eatFood() {
     currentScore++;
+    foodPlayer.play(AssetSource("sounds/apple_bite.mp3"));
+
     // changing the position of food
     while (snakePositions.contains(foodPositions)) {
       foodPositions = Random().nextInt(numberOfSquares);
@@ -138,6 +155,7 @@ class _HomePageState extends State<HomePage> {
   // function for checking if game is pause
   void checkGamePause(Timer timer) {
     if (pause == true) {
+      musicPlayer.pause();
       timer.cancel();
       gameRunning = false;
     } else {
@@ -329,6 +347,8 @@ class _HomePageState extends State<HomePage> {
                             startGame(),
                             gameRunning = true,
                             pause = false,
+                            // if music already playing then just resume musicPlayer
+                            if (isMusicPlaying) musicPlayer.resume()
                           }
                       },
                       color: gameRunning ? Colors.grey : Colors.green,
