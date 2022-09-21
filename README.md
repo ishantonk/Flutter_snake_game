@@ -7,16 +7,16 @@ A simple snake game build with flutter.
 ## Screenshots
 
 ### Game launcher icon
-![launcher-icon](assets/screenshots/launcher-icon.jpg)
+<img src="assets/screenshots/launcher-icon.jpg" width="200" />
 
 ### Game initial
-![game-initial](assets/screenshots/game-initial.jpg)
+<img src="assets/screenshots/game-initial.jpg" width="200" />
 
 ### Game play
-![game-play](assets/screenshots/game-play.jpg)
+<img src="assets/screenshots/game-play.jpg" width="200" />
 
 ### Game over
-![game-over](assets/screenshots/game-over.jpg)
+<img src="assets/screenshots/game-over.jpg" width="200" />
 
 ## Build Setup
 
