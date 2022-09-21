@@ -1,16 +1,38 @@
-# flutter_snake_game
+King cobra snake game.
+=======================
 
-A new Flutter project.
+A simple snake game build with flutter. 
+---------------------------------
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+### Game launcher icon
+![launcher-icon](assets/screenshots/launcher-icon.jpg)
 
-A few resources to get you started if this is your first Flutter project:
+### Game initial
+![game-initial](assets/screenshots/game-initial.jpg)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Game play
+![game-play](assets/screenshots/game-play.jpg)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Game over
+![game-over](assets/screenshots/game-over.jpg)
+
+## Build Setup
+
+``` bash
+# install dependencies
+flutter pub get.
+
+# run in debug mode
+flutter run
+
+# run production build version
+flutter run --release
+
+# build production build apk
+flutter build apk
+
+# install app in your device
+flutter install
+```
