@@ -1,8 +1,7 @@
 King cobra snake game.
 =======================
 
-A simple snake game build with flutter. 
----------------------------------
+## A simple snake game build with flutter.
 
 ## Screenshots
 
